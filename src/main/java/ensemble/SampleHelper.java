@@ -31,10 +31,7 @@
  */
 package ensemble;
 
-import ensemble.pages.CategoryPage;
-import ensemble.pages.SamplePage;
 import java.io.BufferedReader;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -46,11 +43,11 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import javafx.application.ConditionalFeature;
-import javafx.application.Platform;
+
+import ensemble.pages.CategoryPage;
+import ensemble.pages.SamplePage;
 
 /**
  * SampleHelper
@@ -126,7 +123,7 @@ public class SampleHelper {
         for (String oneSampleUrl:sampleUrls) {
             String name = oneSampleUrl.substring(oneSampleUrl.indexOf("ensemble/samples/"), oneSampleUrl.length());
             if (name.startsWith("ensemble/samples/") && name.endsWith(".java")) {
-                String url = "jar:"+jarFileUrl.replace(" ", "%20")+"!/"+name; 
+                String url = "jar:"+jarFileUrl.replace(" ", "%20")+"!/"+name;
                 // System.out.println("findAllSamplesInJar: url = " + url);
                 // create sample page
                 String fileName = name.substring(name.lastIndexOf('/')+1,name.length()-5);
@@ -166,7 +163,9 @@ public class SampleHelper {
         String line;
         List<String> sampleUrls = new ArrayList<String>();
         try {
+            final String filesep = System.getProperty("file.separator");
             while ((line = reader.readLine()) != null) {
+                line = line.replace(filesep, "/");
                 sampleUrls.add(line);
             }
             reader.close();
